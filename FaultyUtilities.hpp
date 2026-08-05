@@ -13,7 +13,7 @@ inline float RandomFloatPrecise(float min, float max, uint8_t precision) { /* sl
     min *= (float)std::pow(10, precision);
     max *= (float)std::pow(10, precision);
     std::uniform_int_distribution<> distr(min, max);
-    return (float)distr(rd) / (float)precision;
+    return (float)distr(rd) / (float)std::pow(10, precision);
 }
 
 inline float RandomFloat(float min, float max) {

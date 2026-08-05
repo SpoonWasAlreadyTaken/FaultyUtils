@@ -8,8 +8,7 @@
 #include <condition_variable>
 
 
-class TaskSystem
-{
+class TaskSystem {
 private:
 	size_t maxThreads;
     size_t  activeThreads;
@@ -27,8 +26,7 @@ private:
 
 public:
 
-	TaskSystem(size_t toStart = 0) 
-	{
+	TaskSystem(size_t toStart = 0) {
 		maxThreads = std::thread::hardware_concurrency();
         if (maxThreads == 0) maxThreads = 1;
 
@@ -42,8 +40,8 @@ public:
 		for (size_t i = 0; i < activeThreads; i++) workers.emplace_back(&TaskSystem::Worker, this);
 	}
 
-	~TaskSystem() // stops all worker threads
-	{
+	~TaskSystem() { // stops all worker threads
+	
 		{
 			std::unique_lock<std::mutex> lock(mutex);
 			running = false;
@@ -78,8 +76,7 @@ private:
 
 	void Worker() {	
 		std::function<void()> task = nullptr;
-		while (running) 
-        {
+		while (running) {
 			{
 				std::unique_lock<std::mutex> lock(mutex);
                 cv.wait(lock, [this] { return !running || !taskQueue.empty(); });
